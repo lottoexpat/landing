@@ -3,1166 +3,817 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LottoExpat — Germany's Lottery. In English. Tax-Free.</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <title>LottoExpat.de — Play Germany's Lottery in English | 1,040 Draws · €50/Month · 0% Tax</title>
+  <meta name="description" content="Germany's lottery, explained in English for expats. 1,040 draws over 10 years for €50/month — one skipped grocery run. 100% tax-free winnings. Dauerspiel autopilot. Know the odds, play the math.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --red: #E8261A;
-      --yellow: #FFD700;
-      --dark: #0D0D0D;
-      --darker: #080808;
-      --mid: #1A1A1A;
-      --border: #2A2A2A;
-      --text: #F0F0F0;
-      --muted: #888;
-      --accent: #FFD700;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--dark);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      overflow-x: hidden;
-    }
-
-    /* NOISE TEXTURE */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 1000;
-      opacity: 0.4;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(to bottom, rgba(13,13,13,0.95), transparent);
-    }
-
-    .logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
-      letter-spacing: 3px;
-      color: var(--yellow);
-    }
-
-    .logo span { color: var(--red); }
-
-    .nav-badge {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      border: 1px solid var(--border);
-      padding: 6px 14px;
-      border-radius: 20px;
-    }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 120px 40px 80px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background: 
-        radial-gradient(ellipse 60% 50% at 70% 50%, rgba(232,38,26,0.08) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255,215,0,0.05) 0%, transparent 60%);
-    }
-
-    .hero-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 4px;
-      color: var(--red);
-      text-transform: uppercase;
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.2s;
-    }
-
-    .hero h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(64px, 10vw, 140px);
-      line-height: 0.92;
-      letter-spacing: 2px;
-      margin-bottom: 32px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.4s;
-    }
-
-    .hero h1 .line-yellow { color: var(--yellow); }
-    .hero h1 .line-red { color: var(--red); }
-    .hero h1 .line-white { color: var(--text); }
-
-    .hero-sub {
-      font-size: 18px;
-      color: var(--muted);
-      max-width: 560px;
-      line-height: 1.7;
-      margin-bottom: 48px;
-      font-weight: 300;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.6s;
-    }
-
-    .hero-sub strong { color: var(--text); font-weight: 500; }
-
-    .hero-cta {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.8s;
-    }
-
-    .btn-primary {
-      background: var(--yellow);
-      color: #000;
-      padding: 16px 36px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 1px;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(255,215,0,0.3);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--text);
-      padding: 16px 36px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-      font-size: 14px;
-      letter-spacing: 1px;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--yellow);
-      color: var(--yellow);
-    }
-
-    /* TICKER */
-    .ticker {
-      background: var(--red);
-      padding: 12px 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .ticker-inner {
-      display: inline-block;
-      animation: ticker 30s linear infinite;
-    }
-
-    .ticker-item {
-      display: inline-block;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px;
-      letter-spacing: 3px;
-      color: #fff;
-      padding: 0 40px;
-    }
-
-    .ticker-item span { color: var(--yellow); }
-
-    @keyframes ticker {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    /* TAX FREE HERO SECTION */
-    .tax-section {
-      padding: 100px 40px;
-      position: relative;
-      overflow: hidden;
-      border-top: 1px solid var(--border);
-    }
-
-    .tax-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-
-    .section-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 4px;
-      color: var(--red);
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-
-    .tax-big {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(80px, 12vw, 160px);
-      line-height: 1;
-      color: var(--yellow);
-      letter-spacing: -2px;
-    }
-
-    .tax-sub {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(28px, 4vw, 48px);
-      color: var(--text);
-      letter-spacing: 2px;
-      margin-top: -8px;
-    }
-
-    .tax-right h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(32px, 4vw, 52px);
-      letter-spacing: 2px;
-      line-height: 1.1;
-      margin-bottom: 24px;
-    }
-
-    .tax-right p {
-      color: var(--muted);
-      line-height: 1.8;
-      font-size: 16px;
-      margin-bottom: 16px;
-      font-weight: 300;
-    }
-
-    .tax-right p strong { color: var(--text); font-weight: 500; }
-
-    .comparison-table {
-      margin-top: 32px;
-      border: 1px solid var(--border);
-    }
-
-    .comp-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .comp-row:last-child { border-bottom: none; }
-
-    .comp-label {
-      font-size: 13px;
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-    }
-
-    .comp-value {
-      font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .comp-value.bad { color: #ff6b6b; }
-    .comp-value.good { color: #51cf66; }
-
-    /* AUTOPILOT SECTION */
-    .autopilot-section {
-      padding: 100px 40px;
-      background: var(--mid);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .autopilot-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .autopilot-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 60px;
-      flex-wrap: wrap;
-      gap: 24px;
-    }
-
-    .autopilot-header h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(40px, 6vw, 80px);
-      letter-spacing: 2px;
-      line-height: 1;
-    }
-
-    .autopilot-header h2 span { color: var(--yellow); }
-
-    .autopilot-header p {
-      max-width: 320px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-    }
-
-    .step-card {
-      background: var(--dark);
-      padding: 36px 28px;
-      position: relative;
-      transition: background 0.3s;
-    }
-
-    .step-card:hover { background: #111; }
-
-    .step-number {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 64px;
-      color: var(--border);
-      line-height: 1;
-      margin-bottom: 16px;
-      transition: color 0.3s;
-    }
-
-    .step-card:hover .step-number { color: var(--yellow); }
-
-    .step-title {
-      font-weight: 600;
-      font-size: 15px;
-      margin-bottom: 10px;
-      color: var(--text);
-    }
-
-    .step-desc {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    /* BUDGET SECTION */
-    .budget-section {
-      padding: 100px 40px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .budget-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .budget-header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .budget-header h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(40px, 6vw, 80px);
-      letter-spacing: 2px;
-      margin-bottom: 16px;
-    }
-
-    .budget-header p {
-      color: var(--muted);
-      font-size: 16px;
-      max-width: 480px;
-      margin: 0 auto;
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    .budget-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      margin-bottom: 2px;
-    }
-
-    .budget-card {
-      background: var(--mid);
-      padding: 40px 32px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .budget-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--yellow);
-    }
-
-    .budget-card.red::before { background: var(--red); }
-
-    .game-name {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 3px;
-      color: var(--muted);
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-
-    .game-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 32px;
-      letter-spacing: 2px;
-      margin-bottom: 20px;
-    }
-
-    .game-prize {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 20px;
-      font-weight: 300;
-    }
-
-    .game-prize strong { color: var(--yellow); font-weight: 600; }
-    .budget-card.red .game-prize strong { color: #ff8080; }
-
-    .game-cost {
-      font-family: 'DM Mono', monospace;
-      font-size: 22px;
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    .game-cost span {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 400;
-    }
-
-    .budget-total {
-      background: var(--yellow);
-      padding: 28px 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .budget-total-label {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 24px;
-      color: #000;
-      letter-spacing: 2px;
-    }
-
-    .budget-total-amount {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 40px;
-      color: #000;
-      letter-spacing: 2px;
-    }
-
-    .budget-total-sub {
-      font-size: 13px;
-      color: rgba(0,0,0,0.6);
-      font-weight: 400;
-    }
-
-    /* DATA SECTION */
-    .data-section {
-      padding: 100px 40px;
-      background: var(--mid);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .data-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .data-header {
-      margin-bottom: 60px;
-    }
-
-    .data-header h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(40px, 6vw, 80px);
-      letter-spacing: 2px;
-      line-height: 1;
-      margin-bottom: 16px;
-    }
-
-    .data-header h2 span { color: var(--yellow); }
-
-    .data-header p {
-      color: var(--muted);
-      font-size: 16px;
-      max-width: 560px;
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    .data-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-    }
-
-    .data-card {
-      background: var(--dark);
-      padding: 36px 28px;
-    }
-
-    .data-icon {
-      font-size: 32px;
-      margin-bottom: 16px;
-    }
-
-    .data-card h3 {
-      font-weight: 600;
-      font-size: 15px;
-      margin-bottom: 10px;
-    }
-
-    .data-card p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    /* MATH SECTION */
-    .math-section {
-      padding: 100px 40px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .math-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-
-    .math-left h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(40px, 5vw, 72px);
-      letter-spacing: 2px;
-      line-height: 1;
-      margin-bottom: 24px;
-    }
-
-    .math-left h2 span { color: var(--yellow); }
-
-    .math-left p {
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.8;
-      font-weight: 300;
-      margin-bottom: 16px;
-    }
-
-    .math-left p strong { color: var(--text); font-weight: 500; }
-
-    .math-right {
-      background: var(--mid);
-      border: 1px solid var(--border);
-      padding: 40px;
-    }
-
-    .math-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-      font-family: 'DM Mono', monospace;
-      font-size: 13px;
-    }
-
-    .math-row:last-child { border-bottom: none; }
-    .math-row-label { color: var(--muted); }
-    .math-row-value { color: var(--text); }
-    .math-row.highlight .math-row-label { color: var(--yellow); font-weight: 500; }
-    .math-row.highlight .math-row-value { color: var(--yellow); font-weight: 500; font-size: 16px; }
-
-    /* WHY EXPATS */
-    .expat-section {
-      padding: 100px 40px;
-      background: var(--mid);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .expat-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .expat-header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .expat-header h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(40px, 6vw, 80px);
-      letter-spacing: 2px;
-      margin-bottom: 16px;
-    }
-
-    .expat-header h2 span { color: var(--red); }
-
-    .expat-header p {
-      color: var(--muted);
-      max-width: 560px;
-      margin: 0 auto;
-      font-size: 16px;
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    .expat-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2px;
-    }
-
-    .expat-card {
-      background: var(--dark);
-      padding: 40px 36px;
-      display: flex;
-      gap: 24px;
-    }
-
-    .expat-emoji {
-      font-size: 36px;
-      flex-shrink: 0;
-    }
-
-    .expat-card h3 {
-      font-weight: 600;
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-    .expat-card p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    /* COMING SOON / CTA */
-    .cta-section {
-      padding: 120px 40px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-bg {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(232,38,26,0.08) 0%, transparent 70%);
-    }
-
-    .cta-section h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(48px, 8vw, 110px);
-      letter-spacing: 2px;
-      line-height: 1;
-      margin-bottom: 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta-section h2 span { color: var(--yellow); }
-
-    .cta-section p {
-      color: var(--muted);
-      font-size: 18px;
-      max-width: 480px;
-      margin: 0 auto 48px;
-      line-height: 1.7;
-      font-weight: 300;
-      position: relative;
-      z-index: 1;
-    }
-
-    .email-form {
-      display: flex;
-      gap: 0;
-      max-width: 480px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .email-input {
-      flex: 1;
-      background: var(--mid);
-      border: 1px solid var(--border);
-      border-right: none;
-      color: var(--text);
-      padding: 16px 20px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .email-input::placeholder { color: var(--muted); }
-
-    .email-input:focus { border-color: var(--yellow); }
-
-    .email-btn {
-      background: var(--yellow);
-      color: #000;
-      border: none;
-      padding: 16px 28px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.2s;
-      white-space: nowrap;
-    }
-
-    .email-btn:hover { background: #ffc800; }
-
-    .cta-note {
-      margin-top: 20px;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 2px;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* FOOTER */
-    footer {
-      padding: 40px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 24px;
-      letter-spacing: 3px;
-      color: var(--yellow);
-    }
-
-    .footer-logo span { color: var(--red); }
-
-    .footer-text {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 1px;
-    }
-
-    .footer-disclaimer {
-      font-size: 11px;
-      color: #444;
-      max-width: 400px;
-      line-height: 1.6;
-      text-align: right;
-    }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
-      .hero { padding: 100px 20px 60px; }
-      .tax-inner, .math-inner { grid-template-columns: 1fr; gap: 40px; }
-      .steps-grid { grid-template-columns: repeat(2, 1fr); }
-      .budget-grid { grid-template-columns: 1fr; }
-      .data-grid { grid-template-columns: 1fr; }
-      .expat-grid { grid-template-columns: 1fr; }
-      .tax-section, .autopilot-section, .budget-section, .data-section, .math-section, .expat-section, .cta-section { padding: 60px 20px; }
-      footer { padding: 30px 20px; flex-direction: column; text-align: center; }
-      .footer-disclaimer { text-align: center; }
-      .email-form { flex-direction: column; }
-      .email-input { border-right: 1px solid var(--border); border-bottom: none; }
-    }
+/* ─── TOKENS ─── */
+:root {
+  --red:#CA0813; --red-dk:#9A0610; --red-lt:#FDECED;
+  --yellow:#FFD700; --yellow-lt:#FFFBEB; --yellow-dk:#A07B00;
+  --ink:#111111; --ink-2:#3D3D3D;
+  --muted:#717170; --border:#E0DFD9; --border-2:#C8C7C0;
+  --page:#F6F5F0; --white:#FFFFFF; --surface:#EDECEA;
+  --green:#166534; --green-bg:#DCFCE7;
+}
+
+/* ─── RESET & BASE ─── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{overflow-x:hidden}
+body{background:var(--page);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6}
+
+/* ─── SPACING SCALE ─── */
+/* Mobile: section padding 40px | Tablet 768+: 56px | Desktop 1024+: 64px | Wide 1280+: 72px */
+.sec{border-bottom:1px solid var(--border)}
+.wrap{max-width:1200px;margin:0 auto;padding:40px 20px}
+@media(min-width:768px){.wrap{padding:56px 32px}}
+@media(min-width:1024px){.wrap{padding:64px 40px}}
+@media(min-width:1280px){.wrap{padding:72px 48px}}
+
+/* ─── TYPOGRAPHY ─── */
+.eyebrow{display:block;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.eyebrow.lt{color:rgba(255,255,255,.45)}
+h2.sh{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5.5vw,60px);letter-spacing:1px;line-height:.95;color:var(--ink);margin-bottom:14px}
+h2.sh .r{color:var(--red)}
+h2.sh .w{color:#fff}
+.sub{font-size:17px;color:var(--muted);line-height:1.75;font-weight:300;max-width:540px}
+
+/* ─── ANIMATIONS ─── */
+.fu{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.fu.vis{opacity:1;transform:none}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ═══════════════════════════
+   NAV
+═══════════════════════════ */
+.nav{
+  background:var(--white);
+  border-bottom:3px solid var(--red);
+  height:60px;padding:0 20px;position:sticky;top:0;z-index:200;
+  display:flex;justify-content:space-between;align-items:center;
+}
+@media(min-width:768px){.nav{padding:0 32px}}
+@media(min-width:1024px){.nav{padding:0 40px}}
+
+/* Logo block — red background pill on mobile, inline on desktop */
+.nav-logo{
+  display:flex;align-items:center;gap:0;
+  text-decoration:none;
+}
+.nav-logo-icon{
+  background:var(--red);
+  color:#fff;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px;letter-spacing:3px;
+  padding:6px 14px 5px;
+  line-height:1;
+  display:block;
+}
+.nav-logo-text{
+  font-family:'DM Mono',monospace;
+  font-size:11px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--muted);
+  padding-left:12px;
+  display:none;
+  border-left:1px solid var(--border);
+  margin-left:12px;
+  line-height:1.4;
+}
+@media(min-width:640px){.nav-logo-text{display:block}}
+
+.nav-links{display:none;gap:6px;align-items:center}
+@media(min-width:900px){.nav-links{display:flex}}
+.nav-links a{
+  font-size:14px;font-weight:500;color:var(--muted);
+  text-decoration:none;padding:6px 10px;
+  letter-spacing:.2px;transition:color .15s,background .15s;
+}
+.nav-links a:hover{color:var(--red);background:var(--red-lt)}
+.nav-pill{
+  background:var(--red)!important;color:#fff!important;
+  padding:8px 18px!important;font-size:12px!important;
+  font-weight:700!important;letter-spacing:.8px!important;
+  text-transform:uppercase!important;
+  transition:background .15s!important;margin-left:6px;
+}
+.nav-pill:hover{background:var(--red-dk)!important}
+
+/* ═══════════════════════════
+   HERO — tight 2-col desktop, stacked mobile
+═══════════════════════════ */
+.hero{background:var(--white);border-bottom:2px solid var(--border)}
+.hero-inner{
+  max-width:1200px;margin:0 auto;
+  padding:40px 20px 36px;
+  display:grid;grid-template-columns:1fr;gap:32px;
+}
+@media(min-width:768px){.hero-inner{padding:48px 32px 44px;grid-template-columns:1fr 320px;gap:40px;align-items:start}}
+@media(min-width:1024px){.hero-inner{padding:56px 40px 52px;grid-template-columns:1fr 400px;gap:56px;align-items:center}}
+@media(min-width:1280px){.hero-inner{padding:60px 48px 56px;grid-template-columns:1fr 440px;gap:64px}}
+
+.hero-h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(44px,10vw,96px);
+  line-height:.92;letter-spacing:1px;color:var(--ink);
+  margin-bottom:16px;
+}
+.hero-h1 .r{color:var(--red)}
+.hero-p{font-size:17px;color:var(--muted);line-height:1.7;max-width:520px;margin-bottom:24px;font-weight:300}
+.hero-p strong{color:var(--ink);font-weight:500}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn-red{background:var(--red);color:#fff;padding:13px 28px;font-size:15px;font-weight:600;letter-spacing:.4px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:background .15s}
+.btn-red:hover{background:var(--red-dk)}
+.btn-outline{background:transparent;color:var(--ink);padding:13px 28px;font-size:15px;font-weight:500;border:1.5px solid var(--border-2);cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .15s,color .15s}
+.btn-outline:hover{border-color:var(--red);color:var(--red)}
+
+/* jackpot panel */
+.jp-panel{border:1.5px solid var(--border);overflow:hidden;background:var(--white)}
+.jp-head{background:var(--red);padding:13px 20px;display:flex;justify-content:space-between;align-items:center}
+.jp-head-lbl{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.jp-live{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.6);font-family:'DM Mono',monospace}
+.live-dot{width:5px;height:5px;background:#4ADE80;border-radius:50%;animation:blink 2s infinite}
+.jp-row{padding:16px 20px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px}
+.jp-game{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.jp-name{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:1px;color:var(--ink);line-height:1}
+.jp-days{font-size:12px;color:var(--muted);margin-top:3px}
+.jp-amt{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--red);letter-spacing:1px;text-align:right;white-space:nowrap}
+.jp-sub{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-align:right}
+.jp-foot{padding:14px 20px;background:var(--surface);display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
+.jp-foot-lbl{font-size:13px;color:var(--muted)}
+.tax-pill{background:var(--green-bg);color:var(--green);font-size:12px;font-weight:600;padding:5px 10px}
+
+/* ═══════════════════════════
+   TICKER
+═══════════════════════════ */
+.ticker{background:var(--red);padding:10px 0;overflow:hidden;white-space:nowrap}
+.ticker-t{display:inline-block;animation:tick 38s linear infinite}
+.ti{display:inline-block;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.7);padding:0 32px}
+.ti b{color:#fff}
+
+/* ═══════════════════════════
+   TAX — ONLY dark section
+═══════════════════════════ */
+.tax-sec{background:var(--ink)}
+.tax-inner{
+  max-width:1200px;margin:0 auto;padding:40px 20px;
+  display:grid;grid-template-columns:1fr;gap:28px;
+  overflow:hidden;
+}
+@media(min-width:768px){.tax-inner{padding:56px 32px;grid-template-columns:160px 1fr;gap:48px;align-items:start}}
+@media(min-width:1024px){.tax-inner{padding:64px 40px;grid-template-columns:200px 1fr;gap:64px}}
+@media(min-width:1280px){.tax-inner{padding:72px 48px}}
+
+.tax-0{font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,14vw,150px);line-height:1;color:var(--yellow);letter-spacing:-2px}
+.tax-0-lbl{font-family:'Bebas Neue',sans-serif;font-size:clamp(18px,3vw,32px);color:rgba(255,255,255,.3);letter-spacing:2px;margin-top:-6px;line-height:1.2}
+.tax-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(30px,4.5vw,52px);letter-spacing:1px;line-height:1;color:#fff;margin-bottom:16px}
+.tax-p{font-size:16px;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:12px;font-weight:300}
+.tax-p strong{color:#fff;font-weight:500}
+.tax-tbl{margin-top:24px;border:1px solid rgba(255,255,255,.09)}
+.trow{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.06)}
+.trow:last-child{border-bottom:none;background:rgba(255,215,0,.05)}
+.trow-l{font-family:'DM Mono',monospace;font-size:13px;color:rgba(255,255,255,.38)}
+.trow-v{font-family:'DM Mono',monospace;font-size:13px;font-weight:500}
+.trow-v.bad{color:#F87171}
+.trow-v.ok{color:#4ADE80}
+
+/* ═══════════════════════════
+   GAMES
+═══════════════════════════ */
+.games-sec{background:var(--white)}
+.games-grid{
+  display:grid;grid-template-columns:1fr;
+  gap:1px;background:var(--border);border:1px solid var(--border);
+  margin-top:32px;overflow:hidden;
+}
+@media(min-width:900px){.games-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+
+.gcard{background:var(--white);padding:20px 18px;transition:background .2s}
+@media(min-width:768px){.gcard{padding:28px 24px}}
+.gcard:hover{background:var(--page)}
+.gcard.featured{background:var(--ink);grid-column:span 1}
+.gcard.featured:hover{background:#1c1c1c}
+@media(min-width:900px){.gcard.featured{grid-column:span 2;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}}
+.gcard.gluck{background:var(--yellow-lt);border-top:3px solid var(--yellow);grid-column:span 1}
+@media(min-width:900px){.gcard.gluck{grid-column:span 2}}
+.gcard.gluck:hover{background:#FFF8CC}
+
+.g-eye{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.gcard.featured .g-eye{color:var(--yellow)}
+.gcard.gluck .g-eye{color:var(--yellow-dk)}
+.g-name{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:1px;line-height:.95;color:var(--ink);margin-bottom:10px}
+.gcard.featured .g-name{color:#fff;font-size:44px}
+.g-p{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:16px}
+.gcard.featured .g-p{color:rgba(255,255,255,.42)}
+.gcard.gluck .g-p{color:var(--ink-2)}
+.g-stats{display:flex;gap:20px;flex-wrap:wrap}
+.gs-n{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--red);letter-spacing:1px}
+.gcard.featured .gs-n{color:var(--yellow)}
+.gcard.gluck .gs-n{color:var(--yellow-dk)}
+.gs-l{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.gcard.featured .gs-l{color:rgba(255,255,255,.28)}
+
+/* odds table inside featured card */
+.odds-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:24px}
+.odds-h{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:12px}
+.orow{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px}
+.orow:last-child{border-bottom:none}
+.ot{color:rgba(255,255,255,.38)}
+.ov{font-family:'DM Mono',monospace;color:rgba(255,255,255,.7)}
+
+/* gluck note */
+.gluck-inner{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:1024px){.gluck-inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.gluck-note{padding:18px 20px;background:rgba(0,0,0,.04);border-left:3px solid var(--yellow);font-size:14px;color:var(--muted);line-height:1.65}
+.gluck-note strong{color:var(--ink);display:block;margin-bottom:6px}
+
+/* total bar */
+.games-total{grid-column:span 1;background:var(--ink);padding:18px 24px;display:flex;justify-content:space-between;align-items:center}
+@media(min-width:900px){.games-total{grid-column:span 2}}
+.gt-lbl{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35)}
+.gt-sub{font-size:13px;color:rgba(255,255,255,.25);margin-top:3px}
+.gt-amt{font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--yellow);letter-spacing:1px}
+.gt-amt span{font-size:22px;opacity:.45}
+
+/* ═══════════════════════════
+   AUTOPILOT
+═══════════════════════════ */
+.auto-sec{background:var(--page)}
+.steps{
+  display:grid;grid-template-columns:1fr;
+  gap:1px;background:var(--border);border:1px solid var(--border);
+  margin-top:32px;
+}
+@media(min-width:600px){.steps{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.steps{grid-template-columns:repeat(4,1fr)}}
+
+.step{background:var(--white);padding:28px 24px;transition:background .2s}
+.step:hover{background:var(--red-lt)}
+.step-n{font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--border-2);line-height:1;margin-bottom:12px;transition:color .2s}
+.step:hover .step-n{color:var(--red)}
+.step-h{font-weight:600;font-size:15px;margin-bottom:8px}
+.step-p{font-size:14px;color:var(--muted);line-height:1.7}
+
+/* ═══════════════════════════
+   MATH
+═══════════════════════════ */
+.math-sec{background:var(--white)}
+.math-inner{display:grid;grid-template-columns:1fr;gap:32px}
+@media(min-width:768px){.math-inner{grid-template-columns:1fr 1fr;gap:48px;align-items:start}}
+@media(min-width:1024px){.math-inner{grid-template-columns:1fr 400px;gap:64px}}
+.math-p{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:12px;font-weight:300}
+.math-p strong{color:var(--ink);font-weight:500}
+.math-tbl{border:1.5px solid var(--border)}
+.mrow{display:flex;justify-content:space-between;gap:8px;padding:13px 18px;border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;font-size:13px}
+.ml{overflow-wrap:break-word;min-width:0}
+.mrow:last-child{border-bottom:none;background:var(--yellow-lt)}
+.ml{color:var(--muted)}
+.mv{color:var(--ink)}
+.mrow.hl .ml{color:var(--red);font-weight:500}
+.mrow.hl .mv{color:var(--red);font-weight:500;font-size:16px}
+.math-note{margin-top:16px;padding:20px;background:var(--surface);border:1px solid var(--border);font-size:14px;color:var(--muted);line-height:1.65}
+.math-note strong{color:var(--ink)}
+
+/* ═══════════════════════════
+   DATA
+═══════════════════════════ */
+.data-sec{background:var(--surface)}
+.data-grid{
+  display:grid;grid-template-columns:1fr;
+  gap:1px;background:var(--border);border:1px solid var(--border);
+  margin-top:32px;
+}
+@media(min-width:600px){.data-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.data-grid{grid-template-columns:repeat(3,1fr)}}
+
+.dcard{background:var(--white);padding:28px 24px;transition:background .2s}
+.dcard:hover{background:var(--red-lt)}
+.d-icon{font-size:26px;margin-bottom:12px}
+.dcard h3{font-weight:600;font-size:16px;margin-bottom:7px}
+.dcard p{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* ═══════════════════════════
+   ARTICLES
+═══════════════════════════ */
+.articles-sec{background:var(--page)}
+.art-grid{
+  display:grid;grid-template-columns:1fr;
+  gap:14px;margin-top:32px;
+}
+@media(min-width:600px){.art-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.art-grid{grid-template-columns:repeat(3,1fr)}}
+
+.acard{background:var(--white);border:1.5px solid var(--border);text-decoration:none;color:inherit;display:block;transition:border-color .15s,transform .15s}
+.acard:hover{border-color:var(--red);transform:translateY(-2px)}
+.ac-stripe{height:3px;background:var(--red)}
+.ac-stripe.y{background:var(--yellow)}
+.ac-stripe.d{background:var(--ink)}
+.ac-body{padding:22px}
+.ac-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.ac-h{font-weight:600;font-size:16px;line-height:1.4;margin-bottom:8px;color:var(--ink)}
+.ac-x{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* ═══════════════════════════
+   PHILOSOPHY — numbered manifesto
+═══════════════════════════ */
+.phil-sec{background:var(--white)}
+.phil-intro{max-width:640px}
+.principles{margin-top:44px}
+.principle{
+  display:grid;grid-template-columns:1fr;gap:8px;
+  padding:36px 0;border-top:2px solid var(--ink);
+}
+@media(min-width:900px){.principle{grid-template-columns:140px minmax(0,1fr);gap:40px;padding:48px 0}}
+@media(min-width:1280px){.principle{grid-template-columns:170px minmax(0,1fr);gap:56px}}
+.pr-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:56px;line-height:.85;
+  color:var(--border);letter-spacing:2px;
+  transition:color .3s;
+}
+@media(min-width:900px){.pr-num{font-size:110px}}
+@media(min-width:1280px){.pr-num{font-size:130px}}
+.principle:hover .pr-num{color:var(--red-lt)}
+.pr-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.pr-quote{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(28px,4.5vw,46px);
+  line-height:.98;letter-spacing:1px;color:var(--ink);
+  margin-bottom:20px;max-width:760px;
+}
+.pr-quote .r{color:var(--red)}
+.pr-body{max-width:740px}
+.pr-body p{font-size:16px;color:var(--ink-2);line-height:1.8;margin-bottom:12px;font-weight:300}
+.pr-body p:last-child{margin-bottom:0}
+.pr-body p strong{color:var(--ink);font-weight:500}
+
+/* ═══════════════════════════
+   CTA
+═══════════════════════════ */
+.cta-sec{background:var(--red)}
+.cta-inner{max-width:560px;margin:0 auto;padding:64px 20px;text-align:center}
+@media(min-width:768px){.cta-inner{padding:80px 32px}}
+.cta-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,9vw,88px);letter-spacing:1px;line-height:.92;color:#fff;margin-bottom:16px}
+.cta-h span{color:var(--yellow)}
+.cta-p{font-size:17px;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:32px;font-weight:300}
+.cta-form{display:flex}
+.cta-inp{flex:1;background:rgba(255,255,255,.13);border:1.5px solid rgba(255,255,255,.22);border-right:none;color:#fff;padding:14px 18px;font-family:'Inter',sans-serif;font-size:15px;outline:none}
+.cta-inp::placeholder{color:rgba(255,255,255,.32)}
+.cta-inp:focus{border-color:rgba(255,255,255,.65)}
+.cta-btn{background:#fff;color:var(--red);border:none;padding:14px 26px;font-weight:700;font-size:15px;cursor:pointer;white-space:nowrap;transition:background .15s}
+.cta-btn:hover{background:var(--yellow)}
+.cta-note{margin-top:14px;font-size:11px;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;letter-spacing:1.5px}
+
+/* ═══════════════════════════
+   FOOTER
+═══════════════════════════ */
+footer{background:var(--ink)}
+.footer-inner{max-width:1200px;margin:0 auto;padding:40px 20px 28px}
+@media(min-width:768px){.footer-inner{padding:52px 32px 32px}}
+@media(min-width:1024px){.footer-inner{padding:56px 40px 32px}}
+.footer-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:24px}
+@media(min-width:768px){.footer-cols{grid-template-columns:180px 1fr 1fr 1fr;gap:40px}}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:#fff}
+.footer-logo em{color:var(--red);font-style:normal}
+.footer-tag{font-size:12px;color:rgba(255,255,255,.22);margin-top:6px;line-height:1.65}
+.fcol-h{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px}
+.flinks{list-style:none}
+.flinks li{margin-bottom:7px}
+.flinks a{font-size:14px;color:rgba(255,255,255,.32);text-decoration:none;transition:color .15s}
+.flinks a:hover{color:#fff}
+.footer-btm{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.footer-copy{font-size:11px;color:rgba(255,255,255,.16);font-family:'DM Mono',monospace}
+.footer-disc{font-size:11px;color:rgba(255,255,255,.16);max-width:460px;line-height:1.6}
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="logo">Lotto<span>Expat</span>.de</div>
-    <div class="nav-badge">Germany · English · Tax-Free</div>
-  </nav>
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-logo">
+    <span class="nav-logo-icon">LOTTOEXPAT.DE</span>
+    <span class="nav-logo-text">Germany's Lottery<br>In English · Tax-Free</span>
+  </a>
+  <div class="nav-links">
+    <a href="#games">Games</a>
+    <a href="#autopilot">Autopilot</a>
+    <a href="#data">Data</a>
+    <a href="#articles">Learn</a>
+    <a href="#waitlist" class="nav-pill">Join Waitlist</a>
+  </div>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-tag">For Expats Living in Germany</div>
-    <h1>
-      <span class="line-yellow">GERMANY'S</span><br>
-      <span class="line-white">LOTTERY.</span><br>
-      <span class="line-red">IN ENGLISH.</span>
-    </h1>
-    <p class="hero-sub">
-      You moved countries. You built a life from scratch. You work, you save, you plan.
-      Now take <strong>the €50 you'd throw away on beer anyway</strong> — put it on autopilot for ten years.
-      If it pays off, <strong>you keep every single cent. Zero tax. Forever.</strong>
-    </p>
-    <div class="hero-cta">
-      <a href="#waitlist" class="btn-primary">Join the Waitlist</a>
-      <a href="#how-it-works" class="btn-secondary">How It Works</a>
+<!-- HERO -->
+<section class="hero sec">
+  <div class="hero-inner">
+    <div class="fu">
+      <span class="eyebrow">Germany's Lottery · In English · On Autopilot</span>
+      <h1 class="hero-h1">LOTTO<br><span class="r">ON</span><br>COPILOT</h1>
+      <p class="hero-p">You run an ETF Sparplan. You automate rent, savings, everything. Now run <strong>Germany's lottery the same way — Dauerspiel, completely automatic.</strong> 1,040 draws over 10 years. Your only job: <strong>keep €50 in your German IBAN.</strong> The system does everything else. <strong>Zero tax on any win. Forever.</strong></p>
+      <div class="hero-btns">
+        <a href="#autopilot" class="btn-red">Set Up Dauerspiel</a>
+        <a href="#games" class="btn-outline">Understand the Odds</a>
+      </div>
     </div>
-  </section>
-
-  <!-- TICKER -->
-  <div class="ticker">
-    <div class="ticker-inner">
-      <span class="ticker-item">🎰 EUROJACKPOT <span>€120M JACKPOT</span></span>
-      <span class="ticker-item">⚡ LOTTO 6AUS49 <span>€50M JACKPOT</span></span>
-      <span class="ticker-item">🌀 GLÜCKSSPIRALE <span>€10K/MONTH FOR 20 YEARS</span></span>
-      <span class="ticker-item">✅ 100% TAX FREE <span>IN GERMANY</span></span>
-      <span class="ticker-item">🤖 FULLY AUTOMATED <span>DAUERSPIEL</span></span>
-      <span class="ticker-item">🎰 EUROJACKPOT <span>€120M JACKPOT</span></span>
-      <span class="ticker-item">⚡ LOTTO 6AUS49 <span>€50M JACKPOT</span></span>
-      <span class="ticker-item">🌀 GLÜCKSSPIRALE <span>€10K/MONTH FOR 20 YEARS</span></span>
-      <span class="ticker-item">✅ 100% TAX FREE <span>IN GERMANY</span></span>
-      <span class="ticker-item">🤖 FULLY AUTOMATED <span>DAUERSPIEL</span></span>
+    <div class="jp-panel fu">
+      <div class="jp-head">
+        <span class="jp-head-lbl">Current Jackpots</span>
+        <span class="jp-live"><span class="live-dot"></span>Live</span>
+      </div>
+      <div class="jp-row">
+        <div><div class="jp-game">Eurojackpot</div><div class="jp-name">TUE + FRI</div><div class="jp-days">18 countries · €10M min</div></div>
+        <div><div class="jp-amt">€120M</div><div class="jp-sub">jackpot cap</div></div>
+      </div>
+      <div class="jp-row">
+        <div><div class="jp-game">Lotto 6aus49</div><div class="jp-name">WED + SAT</div><div class="jp-days">Germany only · since 1955</div></div>
+        <div><div class="jp-amt">€50M</div><div class="jp-sub">rolling jackpot</div></div>
+      </div>
+      <div class="jp-row">
+        <div><div class="jp-game">Spiel77</div><div class="jp-name">WED + SAT</div><div class="jp-days">Bonus · auto-number</div></div>
+        <div><div class="jp-amt">€10M</div><div class="jp-sub">guaranteed top</div></div>
+      </div>
+      <div class="jp-row">
+        <div><div class="jp-game">GlücksSpirale</div><div class="jp-name">EVERY SAT</div><div class="jp-days">€10K/month for 20 years</div></div>
+        <div><div class="jp-amt">€2.1M</div><div class="jp-sub">lump sum equiv.</div></div>
+      </div>
+      <div class="jp-foot">
+        <span class="jp-foot-lbl">Tax on any win</span>
+        <span class="tax-pill">✓ 0% — Keep it all</span>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- TAX FREE SECTION -->
-  <section class="tax-section">
-    <div class="tax-inner">
-      <div class="tax-left fade-in">
-        <div class="section-tag">The Big Deal</div>
-        <div class="tax-big">0%</div>
-        <div class="tax-sub">TAX ON<br>EVERY WIN</div>
-      </div>
-      <div class="tax-right fade-in">
-        <div class="section-tag">Why This Changes Everything</div>
-        <h2>NOWHERE ELSE<br>IN THE WORLD.</h2>
-        <p>Germany is one of the <strong>very few countries on earth</strong> where lottery winnings are completely tax-free. Not partially. Not after allowances. <strong>Zero. Nothing. Keep it all.</strong></p>
-        <p>Win €120 million on Tuesday? €120 million lands in your account on Wednesday. The German government takes nothing. No declaration. No forms. No accountant needed.</p>
-        <div class="comparison-table">
-          <div class="comp-row">
-            <span class="comp-label">ETF / Stock gains</span>
-            <span class="comp-value bad">25% Abgeltungsteuer</span>
-          </div>
-          <div class="comp-row">
-            <span class="comp-label">Crypto (under 1 year)</span>
-            <span class="comp-value bad">Up to 45% income tax</span>
-          </div>
-          <div class="comp-row">
-            <span class="comp-label">Rental income</span>
-            <span class="comp-value bad">Income tax rate</span>
-          </div>
-          <div class="comp-row">
-            <span class="comp-label">🎰 Lottery win in Germany</span>
-            <span class="comp-value good">0% — keep it all</span>
-          </div>
-        </div>
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-t">
+    <span class="ti">🎰 EUROJACKPOT — <b>€120M · MUST BE WON AT CAP</b></span>
+    <span class="ti">⚡ LOTTO 6AUS49 — <b>RUNNING SINCE 1955</b></span>
+    <span class="ti">🌀 GLÜCKSSPIRALE — <b>€10K/MONTH · 20 YEARS</b></span>
+    <span class="ti">✅ LOTTERY WINS — <b>0% TAX IN GERMANY</b></span>
+    <span class="ti">🤖 DAUERSPIEL — <b>SET ONCE · RUN FOREVER</b></span>
+    <span class="ti">📊 DATA HOBBY — <b>20 YEARS OF REAL DRAWS</b></span>
+    <span class="ti">🎰 EUROJACKPOT — <b>€120M · MUST BE WON AT CAP</b></span>
+    <span class="ti">⚡ LOTTO 6AUS49 — <b>RUNNING SINCE 1955</b></span>
+    <span class="ti">🌀 GLÜCKSSPIRALE — <b>€10K/MONTH · 20 YEARS</b></span>
+    <span class="ti">✅ LOTTERY WINS — <b>0% TAX IN GERMANY</b></span>
+    <span class="ti">🤖 DAUERSPIEL — <b>SET ONCE · RUN FOREVER</b></span>
+    <span class="ti">📊 DATA HOBBY — <b>20 YEARS OF REAL DRAWS</b></span>
+  </div>
+</div>
+
+<!-- TAX — single dark section -->
+<section class="tax-sec sec">
+  <div class="tax-inner">
+    <div class="fu">
+      <span class="eyebrow lt">The only reason this works</span>
+      <div class="tax-0">0%</div>
+      <div class="tax-0-lbl">TAX ON<br>EVERY WIN</div>
+    </div>
+    <div class="fu">
+      <h2 class="tax-h">NOWHERE ELSE<br>ON EARTH.</h2>
+      <p class="tax-p">Germany is one of the only countries where lottery winnings are <strong>completely tax-free</strong> — not partially, not after an allowance. Every cent of any prize goes directly to you.</p>
+      <p class="tax-p">ETFs taxed at 26%. Crypto taxed up to 45%. Savings interest taxed. Lottery win in Germany: the government takes <strong>nothing</strong>. Written into §22 EStG and unchanged for decades.</p>
+      <p class="tax-p">It applies to <strong>every expat</strong> — no citizenship required, no special forms. Win €120M on a Tuesday, the full amount lands in your account Wednesday morning.</p>
+      <div class="tax-tbl">
+        <div class="trow"><span class="trow-l">ETF / Stock gains (Abgeltungsteuer)</span><span class="trow-v bad">26.375%</span></div>
+        <div class="trow"><span class="trow-l">Crypto under 1 year</span><span class="trow-v bad">Up to 45%</span></div>
+        <div class="trow"><span class="trow-l">Rental income</span><span class="trow-v bad">Income tax rate</span></div>
+        <div class="trow"><span class="trow-l">🎰 German lottery win</span><span class="trow-v ok">€0.00 — keep everything</span></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- HOW IT WORKS -->
-  <section class="autopilot-section" id="how-it-works">
-    <div class="autopilot-inner">
-      <div class="autopilot-header fade-in">
-        <h2>THE <span>AUTOPILOT</span><br>EXPERIENCE</h2>
-        <p>In the world of AI and automation, your lottery should run itself. Set once. Run forever. Zero manual action.</p>
-      </div>
-      <div class="steps-grid">
-        <div class="step-card fade-in">
-          <div class="step-number">01</div>
-          <div class="step-title">Download the App</div>
-          <div class="step-desc">Download the official LOTTO Niedersachsen app. State-run, government-backed, fully licensed.</div>
-        </div>
-        <div class="step-card fade-in">
-          <div class="step-number">02</div>
-          <div class="step-title">Create Your Account</div>
-          <div class="step-desc">Register with your German address, Blue Card, and IBAN. Verified in minutes via 1-cent bank transfer.</div>
-        </div>
-        <div class="step-card fade-in">
-          <div class="step-number">03</div>
-          <div class="step-title">Set Up Dauerspiel</div>
-          <div class="step-desc">Enable Dauerspiel — Germany's standing order for lottery. Three games. Quicktipp. Auto-renews every 4 weeks forever.</div>
-        </div>
-        <div class="step-card fade-in">
-          <div class="step-number">04</div>
-          <div class="step-title">Live Your Life</div>
-          <div class="step-desc">Money debited automatically from your IBAN. Draws happen. Wins notify you. You don't touch anything. Ever.</div>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- GAMES -->
+<section class="sec games-sec" id="games">
+  <div class="wrap">
+    <span class="eyebrow">The €50 Portfolio</span>
+    <h2 class="sh">FOUR GAMES.<br>ONE COPILOT.</h2>
+    <p class="sub">Understand what you're playing before you play it. Real odds. Real prizes. No systems, no superstition — just the mechanics, plainly explained.</p>
+    <div class="games-grid fu">
 
-  <!-- BUDGET BREAKDOWN -->
-  <section class="budget-section">
-    <div class="budget-inner">
-      <div class="budget-header fade-in">
-        <div class="section-tag">The €50 Portfolio</div>
-        <h2>THREE GAMES.<br>ONE BUDGET.</h2>
-        <p>Less than a night out. Less than a streaming subscription. €50/month buys you a non-zero shot at never working again.</p>
-      </div>
-      <div class="budget-grid">
-        <div class="budget-card fade-in">
-          <div class="game-name">Game 01 — Every Saturday</div>
-          <div class="game-title">GLÜCKS-<br>SPIRALE</div>
-          <div class="game-prize">Win <strong>€10,000/month for 20 years</strong> — or take the €2.1M lump sum. Odds: 1 in 10 million. Best odds of all three games.</div>
-          <div class="game-cost">€20.70 <span>/ 4 weeks</span></div>
-        </div>
-        <div class="budget-card fade-in">
-          <div class="game-name">Game 02 — Tue + Fri</div>
-          <div class="game-title">EURO-<br>JACKPOT</div>
-          <div class="game-prize">Europe's biggest jackpot. Up to <strong>€120 million</strong>. Drawn twice a week across 18 countries. Your moonshot.</div>
-          <div class="game-cost">€16.80 <span>/ 4 weeks</span></div>
-        </div>
-        <div class="budget-card red fade-in">
-          <div class="game-name">Game 03 — Wed + Sat</div>
-          <div class="game-title">LOTTO<br>6AUS49</div>
-          <div class="game-prize">Germany's classic. Up to <strong>€50 million jackpot</strong>. Currently at €50M and rolling. Drawn since 1955.</div>
-          <div class="game-cost">€10.40 <span>/ 4 weeks</span></div>
-        </div>
-      </div>
-      <div class="budget-total fade-in">
+      <!-- Eurojackpot featured -->
+      <div class="gcard featured">
         <div>
-          <div class="budget-total-label">Total Monthly Budget</div>
-          <div class="budget-total-sub">Auto-debited from your German IBAN</div>
+          <div class="g-eye">The Moonshot · Tue + Fri</div>
+          <div class="g-name">EURO-<br>JACKPOT</div>
+          <p class="g-p">Played across 18 European countries. Jackpot starts at €10M and climbs to a hard cap of €120M — at which point it <em>must</em> be distributed that draw. Your biggest shot at a life-restructuring number.</p>
+          <div class="g-stats">
+            <div><div class="gs-n">€120M</div><div class="gs-l">Jackpot cap</div></div>
+            <div><div class="gs-n">2×/wk</div><div class="gs-l">Draw frequency</div></div>
+            <div><div class="gs-n">€16.80</div><div class="gs-l">Per 4 weeks</div></div>
+          </div>
         </div>
-        <div class="budget-total-amount">€47.90 / mo</div>
+        <div class="odds-box">
+          <div class="odds-h">Prize tiers &amp; true odds</div>
+          <div class="orow"><span class="ot">Jackpot (5+2)</span><span class="ov">1 in 139,838,160</span></div>
+          <div class="orow"><span class="ot">2nd prize (5+1)</span><span class="ov">1 in 6,991,908</span></div>
+          <div class="orow"><span class="ot">3rd prize (5+0)</span><span class="ov">1 in 3,107,515</span></div>
+          <div class="orow"><span class="ot">4th prize (4+2)</span><span class="ov">1 in 621,503</span></div>
+          <div class="orow"><span class="ot">5th prize (4+1)</span><span class="ov">1 in 31,075</span></div>
+          <div class="orow"><span class="ot">Any prize</span><span class="ov">1 in 26</span></div>
+        </div>
+      </div>
+
+      <!-- Lotto 6aus49 -->
+      <div class="gcard">
+        <div class="g-eye">The German Classic · Wed + Sat</div>
+        <div class="g-name">LOTTO<br>6AUS49</div>
+        <p class="g-p">Running since 1955. Pick 6 numbers from 1–49. Jackpot rolls indefinitely — biggest ever was €45.4M. The most German thing most expats never heard of. Add Superzahl for Class 1.</p>
+        <div class="g-stats">
+          <div><div class="gs-n">€45M+</div><div class="gs-l">Max jackpot</div></div>
+          <div><div class="gs-n">1:140M</div><div class="gs-l">Jackpot odds</div></div>
+          <div><div class="gs-n">€10.40</div><div class="gs-l">Per 4 weeks</div></div>
+        </div>
+      </div>
+
+      <!-- Spiel77 -->
+      <div class="gcard">
+        <div class="g-eye">The Bonus Game · Wed + Sat</div>
+        <div class="g-name">SPIEL<br>77</div>
+        <p class="g-p">A 7-digit number auto-assigned to your Lotto ticket — no picking, no thinking. Match all 7 in order: €10M guaranteed. Runs alongside 6aus49 automatically in a single Dauerspiel.</p>
+        <div class="g-stats">
+          <div><div class="gs-n">€10M</div><div class="gs-l">Guaranteed top</div></div>
+          <div><div class="gs-n">1:10M</div><div class="gs-l">Top odds</div></div>
+          <div><div class="gs-n">€20.70</div><div class="gs-l">Per 4 weeks</div></div>
+        </div>
+      </div>
+
+      <!-- GlücksSpirale -->
+      <div class="gcard gluck">
+        <div class="g-eye">The Income Play · Every Saturday</div>
+        <div class="g-name">GLÜCKSSPIRALE</div>
+        <div class="gluck-inner">
+          <div>
+            <p class="g-p">Not a jackpot — a structured lifetime income. Win Class 7 and receive <strong>€10,000 every month for 20 years</strong>. Total: €2.4M paid as guaranteed monthly income. Or take the lump sum. A completely different kind of win.</p>
+            <div class="g-stats">
+              <div><div class="gs-n">€10K/mo</div><div class="gs-l">For 20 years</div></div>
+              <div><div class="gs-n">1:10M</div><div class="gs-l">Top prize odds</div></div>
+              <div><div class="gs-n">€2.4M</div><div class="gs-l">Total payout</div></div>
+            </div>
+          </div>
+          <div class="gluck-note">
+            <strong>Why it's different</strong>
+            The top prize defaults to monthly payout — not a lump sum. For expats who want income replacement rather than a windfall, this is the most interesting prize structure in the portfolio. Lower prizes (matching 2–5 digits, €5–€1,000) are frequent enough to partially offset total spend. Same Dauerspiel. Every Saturday. Automatic. 100% tax-free.
+          </div>
+        </div>
+      </div>
+
+      <!-- Total bar -->
+      <div class="games-total">
+        <div><div class="gt-lbl">Total Monthly Portfolio</div><div class="gt-sub">Auto-debited from your German IBAN</div></div>
+        <div class="gt-amt">€47.90 <span>/month</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- AUTOPILOT -->
+<section class="sec auto-sec" id="autopilot">
+  <div class="wrap">
+    <span class="eyebrow">The Autopilot System</span>
+    <h2 class="sh">DAUERSPIEL. SET ONCE.<br><span class="r">RUN FOREVER.</span></h2>
+    <p class="sub">Germany's lottery subscription — the same mental model as your ETF Sparplan. Configure it once, and your only ongoing job is keeping €50 in the account. Everything else happens without you.</p>
+    <div class="steps fu">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-h">Find your state's lottery</div>
+        <p class="step-p">Germany runs its lottery through 16 state operators — one per Bundesland. You simply play through the state where you're registered. Same games, same prices, same Dauerspiel everywhere. lotto.de routes you to yours automatically.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-h">Register with your German IBAN</div>
+        <p class="step-p">Anmeldung address, date of birth, IBAN. Age verified via 1-cent bank transfer. Takes under 10 minutes. No citizenship required — any legal resident can play.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div class="step-h">Enable Dauerspiel on all 4 games</div>
+        <p class="step-p">Select all four games, choose Dauerspiel, set 52 weeks, enable Quicktipp for random numbers. Confirm IBAN direct debit. Done.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <div class="step-h">Live your life</div>
+        <p class="step-p">~€47.90 debited every 4 weeks — as long as the money's there, the system runs. Four draws a week entered automatically. Any win credited straight to your bank. For years. That's the entire point.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- DATA SECTION -->
-  <section class="data-section">
-    <div class="data-inner">
-      <div class="data-header fade-in">
-        <div class="section-tag">Data-Driven Hobby</div>
-        <h2>20 YEARS OF<br><span>REAL DATA.</span></h2>
-        <p>LottoExpat is not a prediction engine. We don't tell you which numbers to pick. We show you exactly what happened — draw by draw — for the last 20 years. Informed hobby, not superstition.</p>
-      </div>
-      <div class="data-grid">
-        <div class="data-card fade-in">
-          <div class="data-icon">📊</div>
-          <h3>Draw History</h3>
-          <p>Every single draw from every game since inception. Filter by year, month, prize tier. See the full picture.</p>
-        </div>
-        <div class="data-card fade-in">
-          <div class="data-icon">🔢</div>
-          <h3>Number Frequency</h3>
-          <p>Which numbers appeared most. Which are overdue. Pure historical data — no predictions, no systems, just facts.</p>
-        </div>
-        <div class="data-card fade-in">
-          <div class="data-icon">📈</div>
-          <h3>Jackpot Trends</h3>
-          <p>How jackpots grow during rollover streaks. Average weeks between wins. The longest droughts in German lottery history.</p>
-        </div>
-        <div class="data-card fade-in">
-          <div class="data-icon">🏆</div>
-          <h3>Prize Distribution</h3>
-          <p>What percentage of tickets win at each tier. How many people share jackpots. Real win rates across 20 years.</p>
-        </div>
-        <div class="data-card fade-in">
-          <div class="data-icon">🌍</div>
-          <h3>Rollover Tracker</h3>
-          <p>Live tracking of active rollovers. When jackpots are at historic highs — same odds, bigger reward.</p>
-        </div>
-        <div class="data-card fade-in">
-          <div class="data-icon">🔒</div>
-          <h3>Government Protected</h3>
-          <p>Every draw supervised by an independent notary. State-owned. DLTB regulated. World Lottery Association certified.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- THE MATH -->
-  <section class="math-section">
+<!-- MATH -->
+<section class="sec math-sec">
+  <div class="wrap">
     <div class="math-inner">
-      <div class="math-left fade-in">
-        <div class="section-tag">The Honest Math</div>
-        <h2>€6,000<br>OVER <span>10 YEARS.</span></h2>
-        <p>Let's be real. <strong>Expected financial return is near zero.</strong> You will probably not win the jackpot.</p>
-        <p>But €6,000 over 10 years is <strong>less than one month's salary.</strong> Less than what you spend on coffee. Less than one market correction could wipe from your ETF portfolio.</p>
-        <p>What you're buying is <strong>optionality</strong> — a non-zero, legally protected, government-run, tax-free chance that your entire financial situation changes overnight. For the price of two beers a day.</p>
+      <div class="fu">
+        <span class="eyebrow">The Honest Numbers</span>
+        <h2 class="sh">€5,740 OVER<br>10 YEARS.</h2>
+        <p class="math-p">The expected financial return is <strong>negative</strong>. You will probably not win the jackpot. This needs to be said plainly — and it is.</p>
+        <p class="math-p">But €47.90 a month is <strong>one grocery run you don't make</strong> — one Edeka, Rewe, Aldi, or Lidl basket. Over 10 years that's €5,740: less than one month's average German gross salary, less than a single bad market week could erase from a €60K ETF.</p>
+        <p class="math-p">What you're buying is <strong>optionality</strong> — 1,040 independent, automated, tax-free shots at a number that restructures your entire financial life. The cost is designed to be forgettable. The upside is not.</p>
+        <p class="math-p">This is the data-based hobby framing: you're not playing to win. You're <strong>playing the odds knowingly.</strong> The system asks exactly one thing of you — that €50 sits in your German IBAN when the debit comes. That's the entire contract.</p>
       </div>
-      <div class="math-right fade-in">
-        <div class="math-row">
-          <span class="math-row-label">Per month</span>
-          <span class="math-row-value">€47.90</span>
+      <div class="fu">
+        <div class="math-tbl">
+          <div class="mrow"><span class="ml">Per month</span><span class="mv">€47.90</span></div>
+          <div class="mrow"><span class="ml">Per year</span><span class="mv">~€574</span></div>
+          <div class="mrow"><span class="ml">10-year total spend</span><span class="mv">~€5,740</span></div>
+          <div class="mrow"><span class="ml">Draws entered (10 years)</span><span class="mv">~1,040 draws</span></div>
+          <div class="mrow"><span class="ml">Manual actions needed</span><span class="mv">0</span></div>
+          <div class="mrow"><span class="ml">Tax on any win</span><span class="mv">€0.00</span></div>
+          <div class="mrow hl"><span class="ml">Max upside (Eurojackpot)</span><span class="mv">€120,000,000</span></div>
         </div>
-        <div class="math-row">
-          <span class="math-row-label">Per year</span>
-          <span class="math-row-value">~€574</span>
-        </div>
-        <div class="math-row">
-          <span class="math-row-label">10 years total spend</span>
-          <span class="math-row-value">~€5,740</span>
-        </div>
-        <div class="math-row">
-          <span class="math-row-label">Draws in 10 years</span>
-          <span class="math-row-value">~1,040 draws</span>
-        </div>
-        <div class="math-row">
-          <span class="math-row-label">Manual actions needed</span>
-          <span class="math-row-value">0</span>
-        </div>
-        <div class="math-row">
-          <span class="math-row-label">Tax on any win</span>
-          <span class="math-row-value">€0.00</span>
-        </div>
-        <div class="math-row highlight">
-          <span class="math-row-label">Max possible upside</span>
-          <span class="math-row-value">€120,000,000</span>
+        <div class="math-note">
+          <strong>What else could €47.90/month do?</strong><br>
+          ETF Sparplan at 7% average return for 10 years → ~€8,200 gross, minus 26% Abgeltungsteuer on gains = ~€6,050 net. The ETF wins on expected return — no question. But if the alternative is coffee, beer, or a subscription you barely use, the comparison changes entirely.
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- WHY EXPATS -->
-  <section class="expat-section">
-    <div class="expat-inner">
-      <div class="expat-header fade-in">
-        <div class="section-tag">Built For The Builders</div>
-        <h2>YOU DIDN'T MOVE<br>TO GERMANY TO <span>PLAY SMALL.</span></h2>
-        <p>You left everything familiar. You built a life from scratch in a new country, a new language, a new system. You deserve to have every door open. €50/month keeps one extraordinary door open — automatically, forever.</p>
+<!-- DATA -->
+<section class="sec data-sec" id="data">
+  <div class="wrap">
+    <span class="eyebrow">Data-Based Hobby</span>
+    <h2 class="sh">20 YEARS OF<br><span class="r">REAL DRAWS.</span></h2>
+    <p class="sub">LottoExpat is not a prediction engine. We show you the historical record — draw by draw — so you play with full information, not superstition.</p>
+    <div class="data-grid fu">
+      <div class="dcard"><div class="d-icon">📊</div><h3>Full Draw Archive</h3><p>Every draw from every game since 2003. Filter by year, month, prize tier. 2,300+ Lotto draws and counting.</p></div>
+      <div class="dcard"><div class="d-icon">🔢</div><h3>Number Frequency Map</h3><p>Which numbers appeared most across 20+ years. Pure historical frequency — no predictions, no hot numbers.</p></div>
+      <div class="dcard"><div class="d-icon">📈</div><h3>Jackpot History</h3><p>Every jackpot ever paid — size, date, rollover streak length, and number of winners sharing each draw.</p></div>
+      <div class="dcard"><div class="d-icon">🏆</div><h3>Prize Distribution</h3><p>What % of tickets win at each tier. Real win rates across thousands of draws — not promotional estimates.</p></div>
+      <div class="dcard"><div class="d-icon">🌀</div><h3>Rollover Tracker</h3><p>Active rollover streaks, live. When jackpots hit historic highs — same odds, objectively larger reward.</p></div>
+      <div class="dcard"><div class="d-icon">🔒</div><h3>Government Certified</h3><p>Every draw witnessed by a notary. State-owned. DLTB regulated. World Lottery Association Level 4 certified.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLES -->
+<section class="sec articles-sec" id="articles">
+  <div class="wrap">
+    <span class="eyebrow">Learn the System</span>
+    <h2 class="sh">EVERYTHING YOU<br>NEED TO KNOW.</h2>
+    <p class="sub">No fluff. No systems to sell. Just the mechanics of German lottery — explained in English for people who want to understand what they're actually doing.</p>
+    <div class="art-grid fu">
+      <a href="/articles/lottery-tax-free-germany" class="acard"><div class="ac-stripe"></div><div class="ac-body"><div class="ac-tag">Tax Law</div><div class="ac-h">Is lottery tax-free in Germany? The complete expat guide</div><div class="ac-x">§22 EStG in plain English. Why winnings are completely exempt and whether it applies to you regardless of nationality.</div></div></a>
+      <a href="/articles/what-is-dauerspiel" class="acard"><div class="ac-stripe y"></div><div class="ac-body"><div class="ac-tag">Automation</div><div class="ac-h">What is Dauerspiel? The autopilot lottery explained</div><div class="ac-x">Germany's lottery subscription — how it works, what it costs, and why the 10-year view is the only honest framing.</div></div></a>
+      <a href="/articles/lotto-germany-foreigner-guide" class="acard"><div class="ac-stripe d"></div><div class="ac-body"><div class="ac-tag">Getting Started</div><div class="ac-h">How to play German lotto as a foreigner — step by step</div><div class="ac-x">Every term translated. Eligibility requirements, registration walkthrough, and what actually happens when you win.</div></div></a>
+      <a href="/articles/eurojackpot-vs-lotto-6aus49" class="acard"><div class="ac-stripe"></div><div class="ac-body"><div class="ac-tag">Game Comparison</div><div class="ac-h">Eurojackpot vs Lotto 6aus49 — which should you play?</div><div class="ac-x">Odds and jackpot mechanics compared directly. Why the honest answer for most people is: both, via Dauerspiel.</div></div></a>
+      <a href="/articles/honest-lotto-math-10-years" class="acard"><div class="ac-stripe y"></div><div class="ac-body"><div class="ac-tag">Data Analysis</div><div class="ac-h">The honest lotto math — €50/month for 10 years</div><div class="ac-x">Expected return, total spend, draws entered, what small prizes look like over time. No illusions. Full picture.</div></div></a>
+      <a href="/articles/20-years-german-lotto-data" class="acard"><div class="ac-stripe d"></div><div class="ac-body"><div class="ac-tag">Historical Data</div><div class="ac-h">20 years of German lotto data — what the numbers show</div><div class="ac-x">Number frequency, jackpot droughts, prize tier distribution across 2,300+ draws. Data without prediction claims.</div></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="sec phil-sec">
+  <div class="wrap">
+    <div class="phil-intro fu">
+      <span class="eyebrow">The Case For Playing</span>
+      <h2 class="sh">YOU DIDN'T CROSS<br>BORDERS TO <span class="r">THINK SMALL.</span></h2>
+      <p class="sub">Most people never play the lottery. Not because they've thought it through — but because they've never stopped to ask what, exactly, they're buying. Five principles.</p>
+    </div>
+    <div class="principles">
+
+      <div class="principle fu">
+        <div class="pr-num">01</div>
+        <div>
+          <div class="pr-label">On Optionality</div>
+          <div class="pr-quote">THE QUESTION ISN'T WHETHER YOU'LL WIN.<br>IT'S WHETHER YOU WANT <span class="r">THE DOOR TO EXIST.</span></div>
+          <div class="pr-body">
+            <p>You moved countries. You gave up proximity to family, to familiarity, to the path of least resistance — in exchange for something intangible: a better shot at a life you designed yourself. That was a calculated bet on optionality.</p>
+            <p>Dauerspiel is the same bet, compressed into €50 a month. Optionality is the philosophical term for keeping doors open you haven't walked through yet. The €120M jackpot is not a retirement plan. It is a door. Once opened, it lets you redesign every other decision you've ever made.</p>
+          </div>
+        </div>
       </div>
-      <div class="expat-grid">
-        <div class="expat-card fade-in">
-          <div class="expat-emoji">🏗️</div>
-          <div>
-            <h3>Eastern Europe → Germany</h3>
-            <p>You came to build. Romania, Poland, Bulgaria, Hungary, Czech Republic — millions moved west with ambition and discipline. You understand the value of a system that works quietly in the background while you focus on what matters.</p>
+
+      <div class="principle fu">
+        <div class="pr-num">02</div>
+        <div>
+          <div class="pr-label">On Expected Value vs. Expected Outcome</div>
+          <div class="pr-quote">ARITHMETIC CANNOT<br>PRICE <span class="r">FREEDOM.</span></div>
+          <div class="pr-body">
+            <p>Economists will tell you that playing the lottery is negative expected value. They're right. So is buying travel insurance. So is building an emergency fund. So is choosing a stable career over a startup.</p>
+            <p>These are all negative expected value decisions when modelled as pure probability. We make them because we are not just optimising returns — we are <strong>managing risk, preserving possibility, and buying psychological freedom.</strong> Dauerspiel gives you something arithmetic cannot price: the knowledge that every Tuesday, Friday, Wednesday, and Saturday, something extraordinary is mathematically possible.</p>
           </div>
         </div>
-        <div class="expat-card fade-in">
-          <div class="expat-emoji">🌍</div>
-          <div>
-            <h3>Western Europe → Germany</h3>
-            <p>France, Spain, Italy, Portugal — you crossed borders for opportunity. Germany gave you structure and stability. The lottery gives you the one wildcard that no tax authority can touch, no matter where life takes you next.</p>
+      </div>
+
+      <div class="principle fu">
+        <div class="pr-num">03</div>
+        <div>
+          <div class="pr-label">On The Hobby Framing</div>
+          <div class="pr-quote">THE JACKPOT IS THE BONUS.<br><span class="r">THE HOBBY IS THE POINT.</span></div>
+          <div class="pr-body">
+            <p>A hobby costs money and gives nothing back financially. That's the definition. Cycling, photography, wine — you spend, you enjoy the process, you don't expect a return. The data-based lottery is the same. The return is the ritual: checking results, watching jackpots build, knowing your numbers are in without having lifted a finger.</p>
+            <p>And unlike most hobbies, this one comes with a <strong>non-zero probability of paying back every euro you've ever spent</strong> — and then some — completely tax-free, in a single notification on a Saturday morning.</p>
           </div>
         </div>
-        <div class="expat-card fade-in">
-          <div class="expat-emoji">🍺</div>
-          <div>
-            <h3>The Beer Money Philosophy</h3>
-            <p>€50 is two rounds at a Munich bar. A weekend takeaway habit. A streaming subscription you barely use. Redirect it here instead — and for the next ten years, every Saturday night has a different kind of suspense.</p>
+      </div>
+
+      <div class="principle fu">
+        <div class="pr-num">04</div>
+        <div>
+          <div class="pr-label">On The Cost of Not Playing</div>
+          <div class="pr-quote">THE DOWNSIDE IS FORGETTABLE.<br>THE UPSIDE IS <span class="r">EVERYTHING.</span></div>
+          <div class="pr-body">
+            <p>In ten years, you will have either played or not played. If you didn't play and nothing happened, the €5,740 is simply still somewhere in your account — probably spent on forgettable things. If you did play and nothing happened, you bought 1,040 chances at a different life.</p>
+            <p>The asymmetry is stark. The cost of not playing is not financial. It is the permanent, deliberate closure of a door that cost €50 a month to keep open.</p>
           </div>
         </div>
-        <div class="expat-card fade-in">
-          <div class="expat-emoji">⚙️</div>
-          <div>
-            <h3>The Automation Generation</h3>
-            <p>You automate your investments, your savings, your rent. You live in systems. Dauerspiel is the lottery Sparplan — set once, runs forever alongside everything else. Your life, uninterrupted. Your ticket, always in.</p>
+      </div>
+
+      <div class="principle fu">
+        <div class="pr-num">05</div>
+        <div>
+          <div class="pr-label">On Automation as a Philosophy</div>
+          <div class="pr-quote">THE ONLY DIFFERENCE BETWEEN YOU AND THE WINNER IS <span class="r">THEY SET IT UP.</span></div>
+          <div class="pr-body">
+            <p>You automate your ETF. You set standing orders for rent. You let Spotify, Netflix, and your savings account charge you monthly without thinking. You live in a world of automated systems working quietly in your background — and you are better for it.</p>
+            <p>Dauerspiel is the lottery Sparplan. The same mental model, the same one-time setup cost — a single hour of your life — and the same payoff: a system that runs indefinitely without your attention. <strong>Your life, uninterrupted. Your ticket, always in.</strong></p>
           </div>
         </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="waitlist">
+  <div class="cta-inner">
+    <span class="eyebrow lt">Coming Soon</span>
+    <h2 class="cta-h">JOIN THE<br><span>WAITLIST</span></h2>
+    <p class="cta-p">The first English-first, data-driven, fully automated lottery experience built for expats in Germany. One email when we launch.</p>
+    <div class="cta-form">
+      <input type="email" class="cta-inp" placeholder="your@email.com" id="ei">
+      <button class="cta-btn" id="eb">Notify Me</button>
+    </div>
+    <div class="cta-note">No spam. Unsubscribe anytime.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-cols">
+      <div>
+        <div class="footer-logo">LOTTOEXPAT<em>.DE</em></div>
+        <div class="footer-tag">Germany's Lottery.<br>In English. On Autopilot.<br>Data-Based Hobby.</div>
+      </div>
+      <div>
+        <div class="fcol-h">Games</div>
+        <ul class="flinks">
+          <li><a href="#">Eurojackpot</a></li>
+          <li><a href="#">Lotto 6aus49</a></li>
+          <li><a href="#">Spiel77</a></li>
+          <li><a href="#">GlücksSpirale</a></li>
+          <li><a href="#">Dauerspiel Guide</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="fcol-h">Learn</div>
+        <ul class="flinks">
+          <li><a href="#">Tax-Free Explained</a></li>
+          <li><a href="#">Honest Math</a></li>
+          <li><a href="#">20-Year Data</a></li>
+          <li><a href="#">Foreigner's Guide</a></li>
+          <li><a href="#">All Articles</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="fcol-h">Platform</div>
+        <ul class="flinks">
+          <li><a href="#">Data Dashboard</a></li>
+          <li><a href="#">Rollover Tracker</a></li>
+          <li><a href="#">Draw Calendar</a></li>
+          <li><a href="#">Draw Results</a></li>
+          <li><a href="#">About LottoExpat</a></li>
+        </ul>
       </div>
     </div>
-  </section>
-
-  <!-- CTA / WAITLIST -->
-  <section class="cta-section" id="waitlist">
-    <div class="cta-bg"></div>
-    <div class="section-tag" style="position:relative;z-index:1;">Coming Soon</div>
-    <h2>JOIN THE<br><span>WAITLIST</span></h2>
-    <p>You didn't cross borders to think small. LottoExpat launches soon — the first English-first, data-driven, fully automated lottery experience built for people who came to Germany to build something real.</p>
-    <div class="email-form">
-      <input type="email" class="email-input" placeholder="your@email.com">
-      <button class="email-btn">Notify Me</button>
+    <div class="footer-btm">
+      <div class="footer-copy">© 2026 LottoExpat.de · All rights reserved</div>
+      <div class="footer-disc">Independent information platform. Not affiliated with DLTB or any regional lottery operator. Lottery winnings may be subject to taxation in your country of origin — consult a tax advisor. 18+. Play responsibly. Gambling can be addictive.</div>
     </div>
-    <div class="cta-note">No spam. One email when we launch. Unsubscribe anytime.</div>
-  </section>
+  </div>
+</footer>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-logo">Lotto<span>Expat</span>.de</div>
-    <div class="footer-text">Germany's Lottery · In English · Tax-Free</div>
-    <div class="footer-disclaimer">LottoExpat is an independent information platform. We are not affiliated with Toto-Lotto Niedersachsen GmbH or DLTB. Play responsibly. 18+. Gambling can be addictive.</div>
-  </footer>
-
-  <script>
-    // Scroll animation
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-    // Email form
-    document.querySelector('.email-btn').addEventListener('click', () => {
-      const input = document.querySelector('.email-input');
-      if (input.value && input.value.includes('@')) {
-        input.value = '';
-        input.placeholder = '✓ You\'re on the list!';
-        document.querySelector('.email-btn').textContent = 'Done!';
-        document.querySelector('.email-btn').style.background = '#51cf66';
-      }
-    });
-  </script>
-
+<script>
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:.06});
+document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+const eb=document.getElementById('eb'),ei=document.getElementById('ei');
+eb.addEventListener('click',()=>{
+  if(ei.value&&ei.value.includes('@')){
+    ei.value='';ei.placeholder='✓ You\'re on the list!';
+    eb.textContent='Done!';eb.style.background='#4ADE80';eb.style.color='#000';
+  }
+});
+ei.addEventListener('keypress',e=>{if(e.key==='Enter')eb.click()});
+</script>
 </body>
 </html>
